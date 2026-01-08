@@ -7,3 +7,11 @@ It includes **standalone automation**, **pytest-based test cases**, and **Allure
 
 ## 📁 Project Structure
 
+calculator_testing/
+│
+├── calculator_app.py # Standalone automation script
+├── test_calculator.py # Pytest-based automation tests
+├── allure-results/ # Generated during pytest execution
+├── allure-report/ # Generated Allure HTML report
+└── README.md
+
