@@ -1,31 +1,43 @@
 from pywinauto.application import Application
+from pywinauto import Desktop
+from pywinauto.timings import wait_until_passes
 import time
+import os
 
-# Launch Calculator
-app = Application(backend="uia").start("calc.exe")
-calc = app.window(title_re=".*Calculator.*")
-calc.wait('exists ready visible', timeout=15)
 
-# Debug: print all controls
-calc.print_control_identifiers()
+os.system("taskkill /F /IM Calculator.exe >nul 2>&1")
+os.system("taskkill /F /IM ApplicationFrameHost.exe >nul 2>&1")
 
-# Perform addition: 5 + 3
-calc.child_window(title="5", control_type="Button").click()
-calc.child_window(title="Plus", control_type="Button").click()
-calc.child_window(title="3", control_type="Button").click()
-calc.child_window(title="Equals", control_type="Button").click()
+# Start Calculator
+Application(backend="uia").start("calc.exe")
 
-result = calc.child_window(auto_id="CalculatorResults", control_type="Text").window_text()
+# Attach to Calculator
+calc = wait_until_passes(
+    timeout=30,
+    retry_interval=1,
+    func=lambda: Desktop(backend="uia").window(title_re=".*Calculator.*")
+)
+
+calc.wait("visible", timeout=30)
+calc.set_focus()
+time.sleep(1)
+
+# ---- 5 + 3 ----
+calc.type_keys("5+3=", with_spaces=True)
+time.sleep(1)
+
+result = calc.child_window(auto_id="CalculatorResults").window_text()
 print("Addition Result:", result)
 
-# Perform subtraction: 9 - 4
-calc.child_window(title="9", control_type="Button").click()
-calc.child_window(title="Minus", control_type="Button").click()
-calc.child_window(title="4", control_type="Button").click()
-calc.child_window(title="Equals", control_type="Button").click()
+# ---- Clear ----
+calc.type_keys("{ESC}")
+time.sleep(1)
 
-result = calc.child_window(auto_id="CalculatorResults", control_type="Text").window_text()
+# ---- 9 - 4 ----
+calc.type_keys("9-4=", with_spaces=True)
+time.sleep(1)
+
+result = calc.child_window(auto_id="CalculatorResults").window_text()
 print("Subtraction Result:", result)
 
-# Close Calculator
 calc.close()
