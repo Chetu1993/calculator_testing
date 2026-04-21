@@ -6,7 +6,7 @@ on:
 
 jobs:
   test:
-    run-on: windows-latest
+    runs-on: windows-latest
 
     steps:
       - name: checkout code
