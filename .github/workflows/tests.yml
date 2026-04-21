@@ -1,0 +1,26 @@
+name: run automation tests
+on:
+  push:
+    branches:[main]
+  pull_request:
+
+jobs:
+  test:
+    run-on: windows-latest
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@4
+
+      - name: setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: install dependencies
+      - run |
+      - pip install -r requirements.txt
+      - pip install pywinauto
+      - name: run tests
+      - run |
+      - python -m pytest tests/
