@@ -18,11 +18,11 @@ jobs:
           python-version: '3.13'
 
       - name: install dependencies
-      - run |
-      - pip install -r requirements.txt
-      - pip install pywinauto
-      - pip install pytest
+        run: |
+         pip install -r requirements.txt
+         pip install pywinauto
+         pip install pytest
 
       - name: run tests
-      - run |
-      - python -m pytest tests/
+        run: |
+         python -m pytest tests/
