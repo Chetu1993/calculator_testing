@@ -1,7 +1,7 @@
 name: run automation tests
 on:
   push:
-    branches:[main]
+    branches: [main]
   pull_request:
 
 jobs:
@@ -21,6 +21,8 @@ jobs:
       - run |
       - pip install -r requirements.txt
       - pip install pywinauto
+      - pip install pytest
+
       - name: run tests
       - run |
       - python -m pytest tests/
